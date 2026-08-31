@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 7</title>
+  <link rel="stylesheet" href="style.css">
+  <link
+  href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+</head>
+<body>
+  <nav>
+    <div class="nav-part1">
+      <div class="logo"><i class="ri-survey-line"></i></div>
+    <div class="text">  <h1>Task Manager</h1>
+      <p>Organise your task and get your things done.</p>
+    </div>
+    </div>
+    <div class="nav-part2">
+      <button id="add-task"><i class="ri-add-line"></i> Add Task</button>
+      <button id="theme"><i class="ri-sun-line"></i> Theme</button>
+    </div>
+  </nav>
+
+    <main>
+  <aside>
+    <button id="all-task"><i class="ri-function-line"></i> All Task</button>
+    <button id="Development"><i class="ri-code-s-slash-line"></i> Development</button>
+    <button id="Work"><i class="ri-briefcase-4-line"></i> Work</button>
+    <button id="Study"><i class="ri-book-open-line"></i> Study</button>
+    <button id="Personal"><i class="ri-group-line"></i> Personal</button>
+  </aside>
+
+
+    <section class="section-one">
+      <div class="img">
+      </div>
+      <h1>No task yet!</h1>
+      <p>You don't have any tasks right now.<br>
+      Create your first task to get started.</p>
+      <button id="first-task"><i class="ri-add-line"></i> Add Your First Task</button>
+    </section>
+
+     <section class="section-two">
+     <div class="form">
+      <div class="form-top">
+        <h1>Add Task</h1>
+          <button id="close">X</button>
+      </div>
+      <form>
+        <label for="name">Task Name</label>
+        <input type="text" placeholder="Enter task name">
+        <label for="category">Category</label>
+          <select><option>Select Category</option>
+          <option value="Development">Development</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Study">Study</option></select>
+
+        <label for="description">Description</label>
+          <textarea placeholder="Enter the task description..."></textarea>
+        <button id="add"><i class="ri-add-line"></i>Add</button>
+      </form>
+     </div>
+    </section>
+
+    <div class="card-container">
+    </div>
+  </main>
+  <script src="./main.js"></script>
+</body>
+</html>
