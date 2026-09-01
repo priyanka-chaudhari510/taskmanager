@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+  href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+</head>
+<body>
+   <main>
+<div class="pipeline">
+    <div class="top">    
+    <div class="dom">
+         <div class="html"><h1>HTML</h1><p>The browser receives the HTML document containing elements such as headings, paragraphs, buttons, etc.</p></div>
+    <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+    <div class="parsing"><h1>Parsing</h1><p>The browser reads and analyzes the HTML code to understand its structure.</p></div>
+    <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+    <div class="tokenization"><h1>Tokenization</h1><p>The HTML is broken into smaller pieces called tokens, such as start tags, end tags, attributes, and text.</p></div>
+    <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+    <div class="dom-tree"><h1>DOM Tree</h1><p>The browser uses these tokens to create the DOM Tree, which represents the structure of the HTML document.</p></div>
+     <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+    </div>
+    <div class="css-part">
+        <div class="css"><h1>CSS</h1><p>The browser receives the CSS rules that describe how the HTML elements should look.</p></div>
+         <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+        <div class="cssom"><h1>CSSOM</h1><p>The CSS is parsed and converted into a CSSOM Tree, which represents the styling rules.</p></div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow">|</div>
+        <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+        
+    </div></div>
+<div class="bottom">
+        <div class="rendering">
+        <div class="dom-css"><h1>DOM Tree + CSSOM Tree </h1><p>The browser combines the document structure (DOM) with the styling information (CSSOM).</p></div>
+        <div class="arrow"><i class="ri-arrow-down-long-fill"></i></div>
+        <div class="render"><h1>Render Tree</h1><p>A Render Tree is created containing the elements that need to be displayed along with their styles.</p></div>
+    </div>
+</div>
+</div>
+   </main>
+</body>
+</html>

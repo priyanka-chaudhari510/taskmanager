@@ -17,7 +17,6 @@ let theme = document.querySelector("#theme");
 let body = document.querySelector("body");
 let aside = document.querySelector("aside");
 
-
 addTask.addEventListener("click", () => {
   formDiv.style.display = "flex";
   firstUi.style.display = "none";
@@ -34,117 +33,129 @@ closeForm.addEventListener("click", () => {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-
+ 
   let name = input.value;
-
-  //demonstration: input.value gives the current input value, whereas getAttribute("value") reads the html value attribute which i kept blank so giving null.
-  console.log("input.value =>", input.value);
-  console.log('input.getAttribute("value") =>', input.getAttribute("value"));
+ 
   let cgory = select.value;
   let des = textArea.value;
-
+ 
   if (name.trim() === "" || cgory.trim() === "" || des.trim() === "") {
     alert("Please enter all the fields");
     return;
   }
-
-  obj = {
-    name,
-    cgory,
-    des,
-  };
-
+ 
   let card = document.createElement("div");
   card.setAttribute("data-id", Date.now());
   card.setAttribute("data-status", "pending");
   card.setAttribute("data-category", cgory);
   card.setAttribute("class", "card");
-
+ 
   let categoryIcons = {
     Development: "ri-code-s-slash-line",
     Study: "ri-book-open-line",
     Work: "ri-briefcase-line",
     Personal: "ri-user-line",
   };
-
+ 
   let icon = categoryIcons[cgory];
-
+ 
   let taskTitle = document.createElement("h1");
   taskTitle.innerHTML = `<div><i class="${icon}"></i></div> ${name} `;
   taskTitle.setAttribute("class", "taskTitle");
-
+ 
   let category = document.createElement("p");
   category.innerHTML = cgory;
   category.setAttribute("class", "category");
-
+ 
   let description = document.createElement("p");
   description.innerHTML = des;
   description.setAttribute("class", "description");
-
+ 
   let btns = document.createElement("div");
   btns.setAttribute("class", "btns");
-
+ 
   let complete = document.createElement("button");
   complete.innerHTML = `Complete`;
   complete.setAttribute("class", "complete");
-
+ 
   let edit = document.createElement("button");
   edit.innerHTML = `Edit <i class="ri-pencil-ai-line"></i>`;
   edit.setAttribute("class", "edit");
-
+ 
   let del = document.createElement("button");
   del.innerHTML = `Delete <i class="ri-delete-bin-line"></i>`;
   del.setAttribute("class", "delete");
-
+ 
   btns.append(complete, edit, del);
-
+ 
   card.append(taskTitle, category, description, btns);
-
+ 
   cardContainer.appendChild(card);
-
+ 
   formDiv.style.display = "none";
   cardContainer.style.display = "flex";
-
- cardContainer.addEventListener("click", (event) => {
-
-    let card = event.target.closest(".card");
-
-    if (!card) return;
-
-    // DELETE
-    if (event.target.closest(".delete")) {
-        card.remove();
-    }
-
-    // EDIT
-    if (event.target.closest(".edit")) {
-
-        input.value = card.querySelector(".taskTitle").innerText;
-        select.value = card.getAttribute("data-category");
-        textArea.value = card.querySelector(".description").innerText;
-
-        formDiv.style.display = "flex";
-        card.remove();
-    }
-
-    // COMPLETE
-    if (event.target.closest(".complete")) {
-
-        let completeBtn = event.target.closest(".complete");
-
-        completeBtn.innerHTML =
-            `Completed <i class="ri-check-line"></i>`;
-
-        card.setAttribute("data-status", "completed");
-    }
-
-});
-
+ 
+  //Event Bubbling vs Event Capturing
+ 
+  // Parent-level (card) listeners
+  card.addEventListener("click", () => {
+    console.log("CAPTURE -> Parent (card)");
+  }, true);
+ 
+  card.addEventListener("click", () => {
+    console.log("BUBBLE  -> Parent (card)");
+  }); 
+ 
+  // Child-level (button) listeners
+  [complete, edit, del].forEach((btn) => {
+    btn.addEventListener("click", () => {
+      console.log("CAPTURE -> Child (button)");
+    }, true); 
+ 
+    btn.addEventListener("click", () => {
+      console.log("BUBBLE  -> Child (button)");
+    }); 
+  });
+ 
   form.reset();
 });
+ 
+ 
+// Capture phase - fires FIRST, before the click reaches the card
+cardContainer.addEventListener("click", () => {
+  console.log("CAPTURE -> Grandparent (cardContainer)");
+}, true); 
+ 
+// Bubble phase (default) - fires LAST, after bubbling up from the button
+cardContainer.addEventListener("click", (event) => {
+  console.log("BUBBLE  -> Grandparent (cardContainer)"); 
+ 
+  let card = event.target.closest(".card");
+  if (!card) return;
+ 
+  if (event.target.closest(".delete")) {
+    card.remove();
+  }
+ 
+  if (event.target.closest(".edit")) {
+    input.value = card.querySelector(".taskTitle").innerText;
+    select.value = card.getAttribute("data-category");
+    textArea.value = card.querySelector(".description").innerText;
+ 
+    formDiv.style.display = "flex";
+    card.remove();
+  }
+ 
+  if (event.target.closest(".complete")) {
+    let completeBtn = event.target.closest(".complete");
+    completeBtn.innerHTML = `Completed <i class="ri-check-line"></i>`;
+    card.setAttribute("data-status", "completed");
+  }
+});
+ 
+ 
 
 aside.addEventListener("click", (event) => {
-
   let clickedBtn = event.target.closest("button");
 
   if (!clickedBtn) return;
@@ -164,82 +175,49 @@ aside.addEventListener("click", (event) => {
   studyBtn.style.backgroundColor = "";
   studyBtn.style.borderRadius = "";
 
-
-  
   if (clickedBtn === allTask) {
-
     allTask.style.backgroundColor = "lightgrey";
     allTask.style.borderRadius = "10px";
 
     document.querySelectorAll(".card").forEach((card) => {
       card.style.display = "flex";
     });
-
-  }
-
-
-  else if (clickedBtn === developmentBtn) {
-
+  } else if (clickedBtn === developmentBtn) {
     developmentBtn.style.backgroundColor = "lightgrey";
     developmentBtn.style.borderRadius = "10px";
 
     document.querySelectorAll(".card").forEach((card) => {
       card.style.display =
-        card.getAttribute("data-category") === "Development"
-          ? "flex"
-          : "none";
+        card.getAttribute("data-category") === "Development" ? "flex" : "none";
     });
-
-  }
-
-
-  else if (clickedBtn === workBtn) {
-
+  } else if (clickedBtn === workBtn) {
     workBtn.style.backgroundColor = "lightgrey";
     workBtn.style.borderRadius = "10px";
 
     document.querySelectorAll(".card").forEach((card) => {
       card.style.display =
-        card.getAttribute("data-category") === "Work"
-          ? "flex"
-          : "none";
+        card.getAttribute("data-category") === "Work" ? "flex" : "none";
     });
-
-  }
-
-
-  else if (clickedBtn === personalBtn) {
-
+  } else if (clickedBtn === personalBtn) {
     personalBtn.style.backgroundColor = "lightgrey";
     personalBtn.style.borderRadius = "10px";
 
     document.querySelectorAll(".card").forEach((card) => {
       card.style.display =
-        card.getAttribute("data-category") === "Personal"
-          ? "flex"
-          : "none";
+        card.getAttribute("data-category") === "Personal" ? "flex" : "none";
     });
-
-  }
-
-
-  else if (clickedBtn === studyBtn) {
-
+  } else if (clickedBtn === studyBtn) {
     studyBtn.style.backgroundColor = "lightgrey";
     studyBtn.style.borderRadius = "10px";
 
     document.querySelectorAll(".card").forEach((card) => {
       card.style.display =
-        card.getAttribute("data-category") === "Study"
-          ? "flex"
-          : "none";
+        card.getAttribute("data-category") === "Study" ? "flex" : "none";
     });
-
   }
 
   cardContainer.style.display = "flex";
   firstUi.style.display = "none";
-
 });
 
 theme.addEventListener("click", () => {
